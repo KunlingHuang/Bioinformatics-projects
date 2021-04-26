@@ -43,9 +43,11 @@ np.savetxt("../data/Hi-C/fetal_brain_Won_2016/bed/" + res + "k/" + library + "/G
 ## to write the matrix out as sparse matrix in bed file format
 with open("../data/Hi-C/fetal_brain_Won_2016/bed/"+ res + "k/" +library+"/GSE77565_"+library+"_chr"+chr+".bed", 'w') as f:
     writer = csv.writer(f, delimiter = '\t')
+    resolution = int(res)*1000
     for (n, m), val in np.ndenumerate(np.matrix(inhdf['(' + chr + ', ' + chr + ')'])):
         if val > 0 and m>=n:
-            writer.writerow(["chr" + chr, n*10000+5000, "chr" + chr, m*10000+5000, val])
+            writer.writerow(["chr" + chr, int(n * resolution + (resolution)/2),
+                            "chr" + chr, int(m * resolution + (resolution)/2), val])
 
 
 
